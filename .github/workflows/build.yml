@@ -31,7 +31,7 @@ jobs:
       matrix:
         browser: ['chrome', 'firefox', 'edge']
     steps:
-      - name: Checkout
+      - name: Chechckout
         uses: actions/checkout@v3
       - name: Cache Primes
         id: cache-primes
