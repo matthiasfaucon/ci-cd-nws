@@ -1,6 +1,8 @@
-name: Build the project # optionnal
-run-name: ${{ github.actor }} is building the project # optionnal
+name: Build & Test the project # optionnal
+run-name: ${{ github.actor }} is building the project and testing the project # optionnal
+
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,6 +12,18 @@ jobs:
         with:
           node-version: '14'
       - run: |
-          npm install
+          npm ci
           npm run build
           ls -lah
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v4.2.0 # use the explicit version number
+        with:
+          build: npm run build
+          start: npm start
